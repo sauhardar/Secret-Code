@@ -1,45 +1,69 @@
 import java.util.*;
-import tester.Tester;
 
 /**
  * A class that defines a new permutation code, as well as methods for encoding
  * and decoding of the messages that use this code.
  */
 public class PermutationCode {
-    // The original list of characters to be encoded
-    ArrayList<Character> alphabet = 
-        new ArrayList<Character>(Arrays.asList(
-                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 
-                    'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 
-                    't', 'u', 'v', 'w', 'x', 'y', 'z'));
+  // The original list of characters to be encoded
+  ArrayList<Character> alphabet = new ArrayList<Character>(
+      Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+          'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
 
-    ArrayList<Character> code = new ArrayList<Character>(26);
+  ArrayList<Character> code = new ArrayList<Character>(26);
 
-    // A random number generator
-    Random rand = new Random();
+  // A random number generator
+  Random rand = new Random(1); // Generated with seed
 
-    // Create a new instance of the encoder/decoder with a new permutation code 
-    PermutationCode() {
-        this.code = this.initEncoder();
+  // Create a new instance of the encoder/decoder with a new permutation code
+  PermutationCode() {
+    this.code = this.initEncoder();
+  }
+
+  // Create a new instance of the encoder/decoder with the given code
+  PermutationCode(ArrayList<Character> code) {
+    this.code = code;
+  }
+
+  // Initialize the encoding permutation of the characters
+  ArrayList<Character> initEncoder() {
+    ArrayList<Character> tempAlpha = new ArrayList<Character>();
+    tempAlpha.addAll(this.alphabet);
+    int nextIndex = 0;
+    int codePlace = 0;
+    while (!(tempAlpha.isEmpty())) {
+      nextIndex = rand.nextInt(tempAlpha.size());
+      code.add(codePlace, tempAlpha.get(nextIndex));
     }
+    return this.code;
+  }
 
-    // Create a new instance of the encoder/decoder with the given code 
-    PermutationCode(ArrayList<Character> code) {
-        this.code = code;
+  // produce an encoded String from the given String
+  String encode(String source) {
+    String encoded = "";
+    int sourceLength = source.length();
+    int alphaPlace = 0;
+    for (int i = 0; i < sourceLength; i++) {
+      // Returns the positon of this char in the alphabet based on ASCII Values
+      alphaPlace = source.charAt(i) - 97;
+      encoded += this.code.get(alphaPlace);
     }
+    return encoded;
+  }
 
-    // Initialize the encoding permutation of the characters
-    ArrayList<Character> initEncoder() {
-        return this.alphabet; //you should complete this method
+  // produce a decoded String from the given String
+  String decode(String code) {
+    String decoded = "";
+    int codeLength = code.length();
+    int codePlace = 0;
+    for (int i = 0; i < codeLength; i++) {
+      for (int j = 0; j < this.code.size(); j++) {
+        if (code.charAt(i) == this.code.get(j)) {
+          codePlace = j;
+        }
+      }
+      decoded += this.alphabet.get(codePlace);
     }
-
-    // produce an encoded String from the given String
-    String encode(String source) {
-        return ""; //you should complete this method
-    }
-
-    // produce a decoded String from the given String
-    String decode(String code) {
-        return ""; //you should complete this method
-    }
+    return decoded; // you should complete this method
+  }
 }
