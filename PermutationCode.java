@@ -1,5 +1,7 @@
 import java.util.*;
 
+import tester.Tester;
+
 /**
  * A class that defines a new permutation code, as well as methods for encoding
  * and decoding of the messages that use this code.
@@ -27,13 +29,14 @@ public class PermutationCode {
 
   // Initialize the encoding permutation of the characters
   ArrayList<Character> initEncoder() {
-    ArrayList<Character> tempAlpha = new ArrayList<Character>();
+    ArrayList<Character> tempAlpha = new ArrayList<Character>(26);
     tempAlpha.addAll(this.alphabet);
     int nextIndex = 0;
     int codePlace = 0;
     while (!(tempAlpha.isEmpty())) {
       nextIndex = rand.nextInt(tempAlpha.size());
-      code.add(codePlace, tempAlpha.get(nextIndex));
+      this.code.add(codePlace, tempAlpha.get(nextIndex));
+      tempAlpha.remove(nextIndex);
     }
     return this.code;
   }
@@ -65,5 +68,34 @@ public class PermutationCode {
       decoded += this.alphabet.get(codePlace);
     }
     return decoded; // you should complete this method
+  }
+}
+
+class ExamplesPermutationCode {
+  ArrayList<Character> code1;
+  PermutationCode ceaserCipher;
+
+  void initData() {
+    code1 = new ArrayList<Character>(Arrays.asList('b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a'));
+    ceaserCipher = new PermutationCode(code1);
+  }
+
+  void testEncode(Tester t) {
+    initData();
+    t.checkExpect(ceaserCipher.encode("apple"), "bqqmf");
+  }
+
+  void testDecode(Tester t) {
+    initData();
+    t.checkExpect(ceaserCipher.decode("bqqmf"), "apple");
+  }
+
+  void testInitEncoder(Tester t) {
+    ArrayList<Character> encodeResult = new ArrayList<Character>(
+        Arrays.asList('p', 'b', 'w', 'd', 'm', 'f', 's', 'z', 'j', 'e', 'c', 'k', 'i', 'g', 'x',
+            'a', 'v', 'l', 'u', 't', 'q', 'y', 'o', 'h', 'n', 'r'));
+
+    t.checkExpect(new PermutationCode().code, encodeResult);
   }
 }
