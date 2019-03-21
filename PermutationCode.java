@@ -31,10 +31,9 @@ public class PermutationCode {
     ArrayList<Character> tempAlpha = new ArrayList<Character>(26);
     tempAlpha.addAll(this.alphabet);
     int nextIndex = 0;
-    int codePlace = 0;
     while (!(tempAlpha.isEmpty())) {
       nextIndex = rand.nextInt(tempAlpha.size());
-      this.code.add(codePlace, tempAlpha.get(nextIndex));
+      this.code.add(tempAlpha.get(nextIndex));
       tempAlpha.remove(nextIndex);
     }
     return this.code;
@@ -94,7 +93,7 @@ class ExamplesPermutationCode {
     t.checkExpect(ceaserCipher.encode("apple"), "bqqmf");
     t.checkExpect(ceaserCipher.encode("fundamentalsofcs"), "gvoebnfoubmtpgdt");
     t.checkExpect(oppositeAlpha.encode("hello"), "svqql");
-    t.checkExpect(noCode.encode("hello"), "zmkkx");
+    t.checkExpect(noCode.encode("hello"), "uyxxk");
   }
 
   void testDecode(Tester t) {
@@ -102,13 +101,13 @@ class ExamplesPermutationCode {
     t.checkExpect(ceaserCipher.decode("bqqmf"), "apple");
     t.checkExpect(ceaserCipher.decode("gvoebnfoubmtpgdt"), "fundamentalsofcs");
     t.checkExpect(oppositeAlpha.decode("svqql"), "hello");
-    t.checkExpect(noCode.decode("zmkkx"), "hello");
+    t.checkExpect(noCode.decode("uyxxk"), "hello");
   }
 
   void testInitEncoder(Tester t) {
     ArrayList<Character> encodeResult = new ArrayList<Character>(
-        Arrays.asList('p', 'b', 'w', 'd', 'm', 'f', 's', 'z', 'j', 'e', 'c', 'k', 'i', 'g', 'x',
-            'a', 'v', 'l', 'u', 't', 'q', 'y', 'o', 'h', 'n', 'r'));
+        Arrays.asList('r', 'n', 'h', 'o', 'y', 'q', 't', 'u', 'l', 'v', 'a', 'x', 'g', 'i', 'k',
+            'c', 'e', 'j', 'z', 's', 'f', 'm', 'd', 'w', 'b', 'p'));
 
     t.checkExpect(new PermutationCode().code, encodeResult);
   }
