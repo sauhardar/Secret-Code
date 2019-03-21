@@ -1,5 +1,4 @@
 import java.util.*;
-
 import tester.Tester;
 
 /**
@@ -47,7 +46,7 @@ public class PermutationCode {
     int sourceLength = source.length();
     int alphaPlace = 0;
     for (int i = 0; i < sourceLength; i++) {
-      // Returns the positon of this char in the alphabet based on ASCII Values
+      // Returns the position of this char in the alphabet based on ASCII Values
       alphaPlace = source.charAt(i) - 97;
       encoded += this.code.get(alphaPlace);
     }
@@ -67,28 +66,43 @@ public class PermutationCode {
       }
       decoded += this.alphabet.get(codePlace);
     }
-    return decoded; // you should complete this method
+    return decoded;
   }
 }
 
+// Testing class
 class ExamplesPermutationCode {
   ArrayList<Character> code1;
+  ArrayList<Character> code2;
   PermutationCode ceaserCipher;
+  PermutationCode oppositeAlpha;
+  PermutationCode noCode;
 
   void initData() {
     code1 = new ArrayList<Character>(Arrays.asList('b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'a'));
     ceaserCipher = new PermutationCode(code1);
+
+    code2 = new ArrayList<Character>(Arrays.asList('z', 'y', 'x', 'w', 'v', 'u', 't', 's', 'r', 'q',
+        'p', 'q', 'n', 'm', 'l', 'k', 'j', 'i', 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'));
+    oppositeAlpha = new PermutationCode(code2);
+    noCode = new PermutationCode();
   }
 
   void testEncode(Tester t) {
     initData();
     t.checkExpect(ceaserCipher.encode("apple"), "bqqmf");
+    t.checkExpect(ceaserCipher.encode("fundamentalsofcs"), "gvoebnfoubmtpgdt");
+    t.checkExpect(oppositeAlpha.encode("hello"), "svqql");
+    t.checkExpect(noCode.encode("hello"), "zmkkx");
   }
 
   void testDecode(Tester t) {
     initData();
     t.checkExpect(ceaserCipher.decode("bqqmf"), "apple");
+    t.checkExpect(ceaserCipher.decode("gvoebnfoubmtpgdt"), "fundamentalsofcs");
+    t.checkExpect(oppositeAlpha.decode("svqql"), "hello");
+    t.checkExpect(noCode.decode("zmkkx"), "hello");
   }
 
   void testInitEncoder(Tester t) {
